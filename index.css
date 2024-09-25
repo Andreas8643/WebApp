@@ -1,0 +1,8 @@
+.separator {
+    display: inline-block;
+    width: 2px;
+    height: 40px;
+    background-color: black;
+    align-self: center;
+    user-select: none;
+}
