@@ -9,20 +9,24 @@ body {
 }
 
 .top-bar {
-    width: 100%;
-    padding: 20px;
+    width: 97%;
+    padding: 0.5%;
     background-color: #ccc; 
     text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-bottom: 2px solid #aaa; 
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
-    gap: 1px;
+    border-radius: 10px;
+    margin: 1%
+}
+.middle-theme {
+    width: 60%;
+    background-color: #e0e0e0;
+    text-align: left;
 }
 
-a.add-post-link {
+a.link-other-website {
     margin-top: 10px; 
     text-decoration: none;
     padding: 10px 20px;
@@ -30,8 +34,3 @@ a.add-post-link {
     border-radius: 5px;
 }
 
-.separator {
-    margin-top: 20px; 
-    font-size: 30px;
-    color: #000; /* You can change this color if needed */
-}
