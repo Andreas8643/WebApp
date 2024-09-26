@@ -4,7 +4,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    height: auto;
     background-color: #ffffff;
 }
 
@@ -37,4 +37,28 @@ a.text {
     color: rgb(0, 0, 0);
     border-radius: 5px;
     font-size: 40px;
+}
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .top-bar {
+        width: 100%;
+        text-align: center;
+        align-items: center;
+        transform: none;
+        left: 0;
+        justify-content: flex-start;
+    }
+
+    a.text {
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+    .separator {
+        height: 20px;
+    }
+
 }
