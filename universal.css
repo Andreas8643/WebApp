@@ -148,3 +148,22 @@ nav ul li a:hover {
     object-fit: cover;
     margin-right: 20px;
 }
+.custom-file-input {
+    display: none; 
+}
+.form-row label[for="file-upload"]::after {
+    content: "Choose File";
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #ccc;
+    border: 1px solid #999;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+} 
+.form-row label[for="file-upload"]:hover::after {
+    background-color: #bbb;
+}
+.form-row label[for="file-upload"] {
+    cursor: pointer;
+}
