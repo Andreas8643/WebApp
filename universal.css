@@ -6,6 +6,7 @@ body {
     align-items: center;
     height: auto;
     background-color: #ffffff;
+    padding-top: 50px;
 }
 
 .top-bar {
@@ -20,6 +21,7 @@ body {
     transform: translateX(-50%);
     display: flex;
     border-radius: 10px;
+    z-index: 1000;
 }
 
 .separator {
