@@ -139,3 +139,10 @@ nav ul li a {
 nav ul li a:hover {
     background-color: #ddd;
 }
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
