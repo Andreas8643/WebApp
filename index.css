@@ -62,39 +62,39 @@
 }
 
 .user-icon {
-    width: 50px; /* You can adjust the size */
-    height: 50px; /* You can adjust the size */
-    border-radius: 50%; /* Make it round */
-    margin-right: 10px; /* Space between icon and title */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    margin-right: 10px; 
 }
 
 .post-date {
     font-size: 14px;
-    color: #777; /* Lighter color for date */
+    color: #777; 
 }
 
 .post-description {
     font-size: 16px;
     color: #555;
-    margin: 10px 0; /* Space around description */
+    margin: 10px 0;
 }
 .post-image {
-    width: 100%; /* Make the image responsive */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 10px; /* Match the post style */
-    margin: 10px 0; /* Space around the image */
+    width: 100%; 
+    height: auto; 
+    border-radius: 10px; 
+    margin: 10px 0;
 }
 
 .post-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px; /* Space above footer */
+    margin-top: 10px;
 }
 
 .post-likes {
     font-size: 14px;
-    color: #777; /* Lighter color for likes */
+    color: #777; 
 }
 @media (max-width: 768px) {
     .posts-container {
