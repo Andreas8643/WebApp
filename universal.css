@@ -81,9 +81,9 @@ button:hover {
     background-color: #002040;
 }
 button {
-    margin-top: 10px auto;
+    margin: 10px auto;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #003060;
     color: white;
     border: none;
     border-radius: 5px;
