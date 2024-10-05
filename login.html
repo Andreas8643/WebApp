@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="universal.css">
 </head>
 <nav>
-    <div class="navbar">
-        <div class="home-link">
-            <a href="index.html">Home</a>
-        </div>
-        <div id="profile-icon">
-            <img src="img/ppic.jpg" alt="Profile" />
-        </div>
-    </div>
+    <header class="top-bar">
+        <h1><a href="index.html" class="text">Home</a></h1>
+        <a href="login.html">
+            <img id="profile-picture" src="user-interface.png" alt="login" class="login">
+        </a>
+    </header>
 </nav>
 <body>
 <div class="container">
@@ -23,7 +22,7 @@
             <a href="#">Create an account</a>
             <p>or</p>
             <p>Please login</p>
-            <form action="/login" method="POST">
+            <form action="index.html" method="GET">
                 <input class="input-field" type="email" placeholder="Email" required><br>
                 <input class="input-field" type="password" placeholder="Password" required><br>
                 <button class="login-btn" type="submit">Log in</button>

@@ -134,3 +134,8 @@
         font-size: 30px;
     }
 }
+@media (max-width: 1300px) {
+    .side-bar-l, .side-bar-r {
+        display: none;
+    }
+}
