@@ -37,6 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     const postImage = document.createElement('img');
                     postImage.src = post.image;
                     postImage.classList.add('post-image');
+                    postImage.alt = `Image for ${post.title}`;
+                    postImage.onerror = function() {
+                        this.remove(); // Remove the image element if it fails to load
+                    };
                     article.appendChild(postImage);
                 }
 
