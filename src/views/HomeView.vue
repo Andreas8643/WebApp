@@ -39,7 +39,7 @@ export default {
 /* Container for the reset button */
 .reset-container {
   position: fixed;
-  bottom: calc(80px); /* Position above the bottom bar */
+  bottom: calc(100px); /* Position above the bottom bar */
   left: 50%; /* Horizontal centering */
   transform: translateX(-50%); /* Adjust for centering */
   text-align: center;
