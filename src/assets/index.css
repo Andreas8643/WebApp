@@ -56,7 +56,7 @@ body, html {
 .posts-container {
     position: fixed; /* Fix the container relative to the viewport */
     top: calc(100px + 20px); /* Space below the top bar */
-    bottom: 100px; /* Space above the bottom bar */
+    bottom: 130px; /* Space above the bottom bar */
     left: 50%; /* Center the container horizontally */
     transform: translateX(-50%); /* Adjust for centering */
     width: 60%; /* Set the width for the container (adjust as needed) */
