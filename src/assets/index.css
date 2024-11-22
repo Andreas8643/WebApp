@@ -1,0 +1,167 @@
+/* Global Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box; /* Prevent content overflow due to padding or borders */
+}
+
+/* Bottom Bar Styling */
+.bottom-bar {
+    width: calc(100% - 2%); /* Full width minus margins */
+    padding: 0.5%;
+    background-color: #ccc;
+    text-align: center;
+    position: fixed; /* Sticks to the bottom */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    border-radius: 10px;
+    bottom: 0; /* Align to bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+}
+
+.bottom-bar .text2 {
+    text-decoration: none;
+    padding: 10px 20px;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    font-size: 40px;
+}
+
+/* Side Bars Styling */
+.side-bar-l, .side-bar-r {
+    height: calc(100% - 180px - 5%); /* Dynamic height considering top and bottom elements */
+    width: 100px; /* Fixed width for sidebars */
+    padding: 0.5%;
+    background-color: #ccc;
+    text-align: center;
+    position: fixed; /* Stick to viewport edges */
+    display: flex;
+    justify-content: center; /* Center content inside */
+    border-radius: 10px;
+    top: calc(100px + 2%); /* Below the top bar */
+}
+
+/* Specific Side Bar Positions */
+.side-bar-l {
+    left: 0.5%; /* Stick to the left */
+}
+
+.side-bar-r {
+    right: 0.5%; /* Stick to the right */
+}
+
+/* Posts Container Styling */
+.posts-container {
+    position: fixed; /* Fix the container relative to the viewport */
+    top: calc(100px + 20px); /* Space below the top bar */
+    bottom: 100px; /* Space above the bottom bar */
+    left: 50%; /* Center the container horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    width: 60%; /* Set the width for the container (adjust as needed) */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px 20px; /* Inner padding */
+    background-color: #f4f4f4; /* Light gray background */
+    box-sizing: border-box; /* Include padding and borders in dimensions */
+    z-index: 1; /* Ensure the container is behind floating elements */
+    border-radius: 10px; /* Optional: rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Individual Post Styling */
+.post {
+    background-color: #f9f9f9; /* Light background */
+    padding: 20px;
+    margin-bottom: 20px; /* Spacing between posts */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative;
+}
+
+/* Post Header */
+.post-header {
+    display: flex;
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Align items vertically */
+}
+
+/* User Icon in Post Header */
+.user-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular icon */
+    margin-right: 10px;
+}
+
+/* Post Metadata */
+.post-date {
+    font-size: 14px;
+    color: #777; /* Gray text */
+}
+
+/* Post Description */
+.post-description {
+    font-size: 16px;
+    color: #555; /* Slightly darker gray */
+    margin: 10px 0;
+}
+
+/* Post Image */
+.post-image {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners */
+    margin: 10px 0;
+}
+
+/* Post Footer */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Post Likes */
+.post-likes {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .posts-container {
+        width: 95%; /* Adjust width for smaller screens */
+        margin-top: 100px; /* Ensure posts are visible below top bar */
+    }
+
+    .post h2 {
+        font-size: 20px; /* Smaller heading font size */
+    }
+
+    .post p {
+        font-size: 14px; /* Smaller paragraph font size */
+    }
+
+    .bottom-bar {
+        width: 100%; /* Full width for smaller screens */
+        padding: 10px;
+        font-size: 25px; /* Smaller font size for text */
+    }
+
+    .side-bar-l, .side-bar-r {
+        display: none; /* Hide sidebars on small screens */
+    }
+
+    .bottom-bar .text2 {
+        font-size: 30px; /* Adjust text size */
+    }
+}
+
+@media (max-width: 1300px) {
+    .side-bar-l, .side-bar-r {
+        display: none; /* Hide sidebars on medium screens */
+    }
+}
