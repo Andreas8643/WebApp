@@ -1,6 +1,13 @@
 <template>
   <footer class="bottom-bar">
-    <div class="text2">Footer</div>
+    <div class="footer-content">
+      <p>&copy; 2024 PostIt. All rights reserved.</p>
+      <p>
+        <a href="/privacy-policy" class="footer-link">Privacy Policy</a> | 
+        <a href="/terms-of-service" class="footer-link">Terms of Service</a>
+      </p>
+      <p>Contact us: <a href="mailto:help@needed.com">help@needed.com</a></p>
+    </div>
   </footer>
 </template>
 
@@ -11,5 +18,19 @@ export default {
 </script>
 
 <style scoped>
-/* Footer styles from index.css */
+.footer-content {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+}
+
+.footer-link {
+  color: #888;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  color: #555;
+}
 </style>
