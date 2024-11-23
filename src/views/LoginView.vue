@@ -2,7 +2,7 @@
     <div class="container">
       <div class="login-box">
         <h2>Welcome to PostIt</h2>
-        <a href="#">Create an account</a>
+        <router-link to="/signup">Create an account</router-link>
         <p>or</p>
         <p>Please login</p>
         <form @submit.prevent="login">
