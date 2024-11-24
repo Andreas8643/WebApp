@@ -5,7 +5,16 @@ import LoginView from '@/views/LoginView.vue';// Login page
 import SignUp from '@/views/SignUp.vue';      // SignUp page
 
 const routes = [
-  { path: '/', name: 'Home', component: HomeView },
+  {
+    path: '/',
+    name: 'Home',
+    component: HomeView,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('fetchPosts').then(() => {
+        next(); // Jätka lehe laadimist alles pärast postituste laadimist
+      });
+    },
+  },
   { path: '/addPost', name: 'AddPost', component: AddPost },
   { path: '/login', name: 'Login', component: LoginView },
   {path: '/signup', name: 'SignUp', component: SignUp}
