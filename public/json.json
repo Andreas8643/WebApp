@@ -2,27 +2,27 @@
   {
     "id": 1,
     "author": "Andreas L",
-    "image": "img/tiananmen.jpg",
+    "image": "WebApp/img/tiananmen.jpg",
     "title": "Tiananmen 2024",
-    "profile_picture": "img/1.jpg",
+    "profile_picture": "WebApp/img/1.jpg",
     "date": "2024-10-01 14:30:00",
     "likes": 120
   },
   {
     "id": 2,
     "author": "Marten M",
-    "image": "img/beach.jpg",
+    "image": "WebApp/img/beach.jpg",
     "title": "A Day at the Beach",
-    "profile_picture": "img/2.jpg",
+    "profile_picture": "WebApp/img/2.jpg",
     "date": "2024-10-05 09:15:00",
     "likes": 300
   },
   {
     "id": 3,
     "author": "Lisa Brown",
-    "image": "img/recipes.jpg",
+    "image": "WebApp/img/recipes.jpg",
     "title": "My Favorite Recipes",
-    "profile_picture": "img/3.jpg",
+    "profile_picture": "WebApp/img/3.jpg",
     "date": "2024-10-10 11:00:00",
     "likes": 250
   },
@@ -30,25 +30,25 @@
     "id": 4,
     "author": "Alo P",
     "title": "Tech Trends in 2024 kinda sad",
-    "profile_picture": "img/4.jpg",
+    "profile_picture": "WebApp/img/4.jpg",
     "date": "2024-10-15 16:45:00",
     "likes": 180
   },
   {
     "id": 5,
     "author": "Diddy P",
-    "image": "img/oil.jpg",
+    "image": "WebApp/img/oil.jpg",
     "title": "Where my babyoil at",
-    "profile_picture": "img/5.jpg",
+    "profile_picture": "WebApp/img/5.jpg",
     "date": "2024-10-20 08:30:00",
     "likes": 90
   },
   {
     "id": 6,
     "author": "Tomi L",
-    "image": "img/party.jpg",
+    "image": "WebApp/img/party.jpg",
     "title": "First party at Diddy's",
-    "profile_picture": "img/6.jpg",
+    "profile_picture": "WebApp/img/6.jpg",
     "date": "2024-10-25 10:00:00",
     "likes": 150
   },
@@ -56,7 +56,7 @@
     "id": 7,
     "author": "Tomi W",
     "title": "Aint no party like a diddy party",
-    "profile_picture": "img/7.jpg",
+    "profile_picture": "WebApp/img/7.jpg",
     "date": "2024-10-27 14:00:00",
     "likes": 200
   },
@@ -64,7 +64,7 @@
     "id": 8,
     "author": "Dolaf H",
     "title": "Home Gardening Tips",
-    "profile_picture": "img/8.jpg",
+    "profile_picture": "WebApp/img/8.jpg",
     "date": "2024-10-30 12:30:00",
     "likes": 75
   },
@@ -72,7 +72,7 @@
     "id": 9,
     "author": "Mike R",
     "title": "Google.com how to google google google dot com",
-    "profile_picture": "img/9.jpg",
+    "profile_picture": "WebApp/img/9.jpg",
     "date": "2024-10-28 09:45:00",
     "likes": 65
   },
@@ -80,7 +80,7 @@
     "id": 10,
     "author": "Help M",
     "title": "Help",
-    "profile_picture": "img/10.jpg",
+    "profile_picture": "WebApp/img/10.jpg",
     "date": "2024-10-26 15:20:00",
     "likes": 300
   }
