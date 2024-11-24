@@ -1,10 +1,18 @@
 <template>
   <div>
-    <div class="posts-container">
+    <!-- Laadimisindikaator -->
+    <div v-if="loading" class="loading-container">
+      <p>Loading posts...</p>
+    </div>
+
+    <!-- Postituste konteiner -->
+    <div v-else class="posts-container">
       <div v-for="post in posts" :key="post.id">
         <Post :post="post" /> <!-- Pass each post as a prop to the Post component -->
       </div>
     </div>
+
+    <!-- Nupp, et resettida "likes" -->
     <div class="reset-container">
       <button @click="resetLikes">Reset All Likes</button>
     </div>
@@ -19,20 +27,37 @@ export default {
   components: {
     Post, // Register the Post component
   },
+  data() {
+    return {
+      loading: true, // Laadimisindikaator
+    };
+  },
   computed: {
     posts() {
-      return this.$store.getters.allPosts;  // Access posts from Vuex
+      return this.$store.getters.allPosts; // Access posts from Vuex
     },
   },
   methods: {
     resetLikes() {
-      this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
+      this.$store.dispatch('resetLikes'); // Dispatch action to reset all likes
+    },
+  },
+  watch: {
+    posts(newPosts) {
+      // Kui postitused muutuvad, kontrolli, kas laadimine lõppes
+      if (newPosts.length > 0) {
+        this.loading = false;
+      }
     },
   },
   mounted() {
-    // Fetch posts immediately when the component is mounted, if not already loaded
+    // Laadi postitused kohe, kui komponent monteeritakse
     if (this.posts.length === 0) {
-      this.$store.dispatch('fetchPosts');  // Fetch posts if they are not already in Vuex state
+      this.$store.dispatch('fetchPosts').then(() => {
+        this.loading = false; // Lõpeta laadimine pärast postituste toomist
+      });
+    } else {
+      this.loading = false; // Kui postitused on juba saadaval, lõpeta laadimine
     }
   },
 };
