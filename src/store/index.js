@@ -20,7 +20,10 @@ export default createStore({
   },
   actions: {
     fetchPosts({ commit }) {
-      const jsonUrl = '/WebApp/json.json';  // Path to the JSON file
+       // Update the path for production
+    const jsonUrl = process.env.NODE_ENV === 'production'
+    ? '/WebApp/json.json'  // Production URL with WebApp subfolder
+    : './json.json';   
       fetch(jsonUrl)
         .then(response => {
           if (!response.ok) {
