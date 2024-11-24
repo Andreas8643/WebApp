@@ -29,9 +29,6 @@ export default {
       this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
     },
   },
-  created() {
-    this.$store.dispatch('fetchPosts'); 
-  },
 };
 </script>
 
