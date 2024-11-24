@@ -22,6 +22,9 @@ export default {
     SideBarL,
     SideBarR,
   },
+  created() {
+    this.$store.dispatch('fetchPosts');
+  },
 };
 </script>
 
