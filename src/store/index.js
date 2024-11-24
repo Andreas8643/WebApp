@@ -20,7 +20,7 @@ export default createStore({
   },
   actions: {
     fetchPosts({ commit }) {
-      const jsonUrl = './json.json';  // Path to the JSON file
+      const jsonUrl = '/json.json';  // Path to the JSON file
       fetch(jsonUrl)
         .then(response => {
           if (!response.ok) {
