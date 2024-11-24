@@ -37,6 +37,7 @@
     },
     methods: {
       validateSignup() {
+        console.log("Sign up submitted")
         this.errorMessage = "";
         const conditions = [];
   
