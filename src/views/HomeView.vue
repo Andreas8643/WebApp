@@ -29,6 +29,12 @@ export default {
       this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
     },
   },
+  mounted() {
+    // Fetch posts immediately when the component is mounted, if not already loaded
+    if (this.posts.length === 0) {
+      this.$store.dispatch('fetchPosts');  // Fetch posts if they are not already in Vuex state
+    }
+  },
 };
 </script>
 
