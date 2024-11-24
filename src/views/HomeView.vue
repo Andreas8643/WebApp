@@ -29,8 +29,8 @@ export default {
       this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
     },
   },
-  mounted() {
-    this.$store.dispatch('fetchPosts');  // Fetch posts when the component is mounted
+  created() {
+    this.$store.dispatch('fetchPosts'); 
   },
 };
 </script>
