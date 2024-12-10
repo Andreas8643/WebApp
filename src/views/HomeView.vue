@@ -7,6 +7,7 @@
     </div>
     <div class="reset-container">
       <button @click="resetLikes">Reset All Likes</button>
+      <button @click="resetPosts">Delete All</button>
     </div>
   </div>
 </template>
@@ -21,12 +22,17 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.getters.allPosts;  // Access posts from Vuex
+        const posts = this.$store.getters.allPosts;
+        console.log('Posts in component:', posts); // Kontroll
+        return posts;
     },
   },
   methods: {
     resetLikes() {
       this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
+    },
+    resetPosts() {
+      this.$store.dispatch('resetPosts');  // Dispatch action to reset all posts
     },
   },
   mounted() {
@@ -39,7 +45,7 @@ export default {
 </script>
 
 <style scoped>
-/* Container for the reset button */
+/* Container for the reset buttons */
 .reset-container {
   position: fixed;
   bottom: calc(100px); /* Position above the bottom bar */
@@ -47,18 +53,14 @@ export default {
   transform: translateX(-50%); /* Adjust for centering */
   text-align: center;
   z-index: 10; /* Ensures it appears above other elements */
+  display: flex; /* Ensures the buttons are displayed next to each other */
+  gap: 100px; /* Space between the buttons */
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #728c96;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+
 
 button:hover {
   background-color: #919191;
 }
 </style>
+

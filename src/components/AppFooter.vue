@@ -6,7 +6,7 @@
         <a href="/privacy-policy" class="footer-link">Privacy Policy</a> | 
         <a href="/terms-of-service" class="footer-link">Terms of Service</a>
       </p>
-      <p>Contact us: <a href="mailto:help@needed.com">help@needed.com</a></p>
+      <p><a href="/contactUs" class="footer-link">Contact us</a></p>
     </div>
   </footer>
 </template>

@@ -97,8 +97,10 @@ body, html {
 
 /* Post Metadata */
 .post-date {
+    margin-left: auto; /* Pushes the date to the far right */
+    text-align: right; /* Aligns text to the right */
     font-size: 14px;
-    color: #777; /* Gray text */
+    color: #777;
 }
 
 /* Post Description */

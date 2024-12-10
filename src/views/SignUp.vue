@@ -45,7 +45,7 @@
           conditions.push("Password must be 8-14 characters long.");
         }
         
-        if (!/[A-Z]/.test(this.password)) {
+        if (!/[A-ZÖÄÜÕ]/.test(this.password)) {
           conditions.push("Password must include at least one uppercase character.");
         }
         
