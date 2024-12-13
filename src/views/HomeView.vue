@@ -18,7 +18,7 @@ import Post from "@/components/PostComp.vue"; // Import the Post component
 export default {
   name: "HomeView",
   components: {
-    Post, // Register the Post component
+    Post,
   },
   computed: {
     posts() {
@@ -28,6 +28,22 @@ export default {
     },
   },
   methods: {
+    fetchPosts() {
+      fetch('/json.json') // Fail peab olema public kaustas
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch JSON');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Fetched posts:', data); // Kontrollib, kas andmed laekuvad
+          this.posts = data; // Salvestab postitused lokaalsesse state-i
+        })
+        .catch(error => {
+          console.error('Error fetching posts:', error);
+        });
+    },
     resetLikes() {
       this.$store.dispatch('resetLikes');  // Dispatch action to reset all likes
     },
@@ -36,7 +52,6 @@ export default {
     },
   },
   mounted() {
-    // Fetch posts immediately when the component is mounted, if not already loaded
     if (this.posts.length === 0) {
       this.$store.dispatch('fetchPosts');  // Fetch posts if they are not already in Vuex state
     }
