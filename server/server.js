@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 // Define the path to the JSON file
-const filePath = path.join(__dirname, 'json.json');  // Path to your JSON file
+const filePath = path.join(__dirname, '../public/json.json');  // Path to your JSON file
 
 // Middleware to authenticate user
 const authenticateToken = (req, res, next) => {
@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.post('/add-post', authenticateToken, (req, res) => {
+app.post('/add-post', (req, res) => {
   console.log('ADD-POST')
   try {
     const { title, body, likes } = req.body;
@@ -85,7 +85,8 @@ app.post('/add-post', authenticateToken, (req, res) => {
 });
 
 // Endpoint to fetch the JSON data
-app.get('/json.json', authenticateToken, (req, res) => {
+app.get('/json.json', (req, res) => {
+  console.log
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading JSON file:', err);
@@ -122,7 +123,7 @@ app.delete('/delete-post/:id', (req, res) => {
 });
 
 // Endpoint to edit a post's title
-app.put('/edit-post/:id', authenticateToken, (req, res) => {
+app.put('/edit-post/:id', (req, res) => {
   const { id } = req.params; // Get the post id from the URL
   const { title } = req.body; // Get the new title from the request body
 
@@ -150,7 +151,7 @@ app.put('/edit-post/:id', authenticateToken, (req, res) => {
     });
   });
 });
-app.put('/reset-likes', authenticateToken, (req, res) => {
+app.put('/reset-likes', (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         return res.status(500).send('Error reading JSON file');
@@ -171,7 +172,7 @@ app.put('/reset-likes', authenticateToken, (req, res) => {
   });
   
   // Endpoint to delete a post (ainult autentitud kasutajatele)
-app.delete('/delete-post/:id', authenticateToken, (req, res) => {
+app.delete('/delete-post/:id', (req, res) => {
   const postId = req.params.id;
 
   fs.readFile(filePath, 'utf8', (err, data) => {
