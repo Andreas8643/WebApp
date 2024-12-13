@@ -1,199 +1,110 @@
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const jwt = require('jsonwebtoken');
+import { createStore } from 'vuex';
 
-const app = express();
-const PORT = 3000;
-const SECRET_KEY = 'your-secret-key';
-
-// Middleware for parsing JSON
-app.use(express.json());
-
-// Enable CORS
-app.use(cors());
-
-// Define the path to the JSON file
-const filePath = path.join(__dirname, 'json.json');  // Path to your JSON file
-
-// Middleware to authenticate user
-const authenticateToken = (req, res, next) => {
-
-
-  const token = req.headers['authorization']; // Token tuleb requesti päisest
-  if (!token) return res.status(401).send('Access Denied');
-
-  jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err) return res.status(403).send('Invalid Token');
-    req.user = user; // Salvestab kasutaja info requesti
-    next();
-  }); 
-};
-
-// Simuleeritud sisselogimise lõpp-punkt
-app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-
-  // Kontrolli kasutajat (siin võid lisada päris andmebaasi kontrolli)
-  if (email === 'test@example.com' && password === 'password123') {
-    // Genereeri token
-    const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' }); // Token kehtib 1 tund
-    return res.json({ token });
-  } else {
-    return res.status(401).send('Invalid email or password');
-  }
-});
-
-app.post('/add-post', authenticateToken, (req, res) => {
-  console.log('ADD-POST')
-  try {
-    const { title, body, likes } = req.body;
-
-    let newFilePath = path.join(__dirname, '../public/json.json');
-
-  fs.readFile(newFilePath, 'utf8', (err, data) => {
-    if (err) {
-      console.log(err)
-      return res.status(500).send('Error reading JSON file');
-    }
-
-    let posts = JSON.parse(data);
-    const newPost = {
-      id: Date.now(),
-      title,
-     // body,
-      date: new Date().toISOString().split('T')[0],
-      likes: likes || 0,
-    };
-
-    console.log(newPost)
-
-    posts.push(newPost);
-
-    fs.writeFile(newFilePath, JSON.stringify(posts, null, 2), (err) => {
-      if (err) {
-        return res.status(500).send('Error writing to JSON file');
+export default createStore({
+  state: {
+    posts: [], // Initially empty, will be populated with data
+  },
+  mutations: {
+    setPosts(state, posts) {
+      state.posts = posts; // Set posts fetched from the server
+    },
+    incrementLike(state, postId) {
+      const post = state.posts.find((p) => p.id === postId);
+      if (post) {
+        post.likes += 1; // Increment likes for the post
       }
-      res.status(201).json(newPost);
-    });
-  });
-  } catch (error) {
-    console.log(error);
-    return res.status(201).json(newPost);
-  }
-});
-
-// Endpoint to fetch the JSON data
-app.get('/json.json', authenticateToken, (req, res) => {
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading JSON file:', err);
-      return res.status(500).send('Error reading JSON file');
-    }
-    res.json(JSON.parse(data)); // Send the file content as JSON
-  });
-});
-
-// Endpoint to delete a post from the JSON file
-app.delete('/delete-post/:id', (req, res) => {
-  const postId = req.params.id;
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading JSON file:', err);
-      return res.status(500).send('Error reading JSON file');
-    }
-
-    let posts = JSON.parse(data);
-
-    // Filter out the post with the given ID
-    posts = posts.filter(post => String(post.id) !== postId);
-
-    // Write the updated posts back to the file
-    fs.writeFile(filePath, JSON.stringify(posts, null, 2), (err) => {
-      if (err) {
-        console.error('Error writing to JSON file:', err);
-        return res.status(500).send('Error writing to JSON file');
+    },
+    updatePost(state, { id, title }) {
+      const post = state.posts.find(post => String(post.id) === String(id));
+      if (post) {
+        post.title = title; // Uuendame postituse sisu
       }
-      res.send('Post deleted successfully');
-    });
-  });
-});
+    },
+    deletePost(state, postId) {
+      state.posts = state.posts.filter(post => String(post.id) !== String(postId));
+    },
+    SET_POSTS(state, posts) {
+      console.log('Setting posts:', posts); // Kontroll
+      state.posts = posts; // Ensure state posts are updated after mutation
+    },
+    resetLikes(state) {
+      state.posts.forEach(post => post.likes = 0);  // Reset all likes
+    },
+  },
 
-// Endpoint to edit a post's title
-app.put('/edit-post/:id', authenticateToken, (req, res) => {
-  const { id } = req.params; // Get the post id from the URL
-  const { title } = req.body; // Get the new title from the request body
-
-  if (!title) {
-    return res.status(400).send('Title is required'); // Ensure title is provided
-  }
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      return res.status(500).send('Error reading JSON file');
-    }
-    const posts = JSON.parse(data);
-    const post = posts.find(p => String(p.id) === String(id)); // Find the post by ID
-    if (!post) {
-      return res.status(404).send('Post not found');
-    }
-
-    post.title = title; // Update the post title
-
-    fs.writeFile(filePath, JSON.stringify(posts, null, 2), (err) => {
-      if (err) {
-        return res.status(500).send('Error writing to JSON file');
-      }
-      res.send('Post updated successfully');
-    });
-  });
-});
-app.put('/reset-likes', authenticateToken, (req, res) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        return res.status(500).send('Error reading JSON file');
-      }
-  
-      let posts = JSON.parse(data);
-  
-      // Set likes to 0 for all posts
-      posts = posts.map(post => ({ ...post, likes: 0 }));
-  
-      fs.writeFile(filePath, JSON.stringify(posts, null, 2), (err) => {
-        if (err) {
-          return res.status(500).send('Error writing to JSON file');
+  actions: {
+    async resetLikes({ commit }) {
+      try {
+        const response = await fetch('http://localhost:3000/reset-likes', {
+          method: 'PUT',
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to reset likes: ${response.statusText}`);
         }
-        res.send('All likes reset successfully');
-      });
-    });
-  });
-  
-  // Endpoint to delete a post (ainult autentitud kasutajatele)
-app.delete('/delete-post/:id', authenticateToken, (req, res) => {
-  const postId = req.params.id;
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      return res.status(500).send('Error reading JSON file');
-    }
-
-    let posts = JSON.parse(data);
-
-    // Filter out the post with the given ID
-    posts = posts.filter(post => String(post.id) !== postId);
-
-    fs.writeFile(filePath, JSON.stringify(posts, null, 2), (err) => {
-      if (err) {
-        return res.status(500).send('Error writing to JSON file');
+        commit('resetLikes'); // Update Vuex state
+      } catch (error) {
+        console.error('Error resetting likes:', error);
       }
-      res.send('Post deleted successfully');
-    });
-  });
-});
+    },
+    async resetPosts({ commit }) {
+      try {
+        const response = await fetch('http://localhost:3000/delete-all-posts', {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to delete all posts: ${response.statusText}`);
+        }
+        commit('setPosts', []); // Clear posts in Vuex state
+      } catch (error) {
+        console.error('Error deleting all posts:', error);
+      }
+    },
+    async fetchPosts({ commit }) {
+      try {
+          const jsonUrl = 'http://localhost:3000/json.json'; // Fetch posts from the Express server
+          const response = await fetch(jsonUrl);
+          if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+          }
+          const posts = await response.json();
+          commit('setPosts', posts);
+      } catch (error) {
+          console.error('Error fetching posts:', error);
+      }
+    },
+    deletePost({ commit }, postId) {
+      // First, update Vuex state by removing the post
+      commit('deletePost', postId);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+      // Then send a request to the server to delete the post from the JSON file
+      fetch(`http://localhost:3000/delete-post/${postId}`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Post deleted successfully from the server');
+          } else {
+            console.error('Failed to delete post from the server');
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting post from server:', error);
+        });
+    },
+    updatePost({ commit }, { id, content }) {
+      commit('updatePost', { id, content });
+    },
+    incrementLike({ commit }, postId) {
+      commit('incrementLike', postId); // Increment like for the post
+    },
+  },
+
+  getters: {
+    allPosts(state) {
+      return state.posts; // Return all posts from Vuex state
+    },
+    getPostById: (state) => (id) => {
+      return state.posts.find((post) => String(post.id) === id) || undefined; // Return undefined if not found
+    },
+  },
 });
