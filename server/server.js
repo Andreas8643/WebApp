@@ -2,9 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = 3000;
+const SECRET_KEY = 'your-secret-key';
 
 // Middleware for parsing JSON
 app.use(express.json());
@@ -15,8 +17,75 @@ app.use(cors());
 // Define the path to the JSON file
 const filePath = path.join(__dirname, 'json.json');  // Path to your JSON file
 
+// Middleware to authenticate user
+const authenticateToken = (req, res, next) => {
+
+
+  const token = req.headers['authorization']; // Token tuleb requesti päisest
+  if (!token) return res.status(401).send('Access Denied');
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) return res.status(403).send('Invalid Token');
+    req.user = user; // Salvestab kasutaja info requesti
+    next();
+  }); 
+};
+
+// Simuleeritud sisselogimise lõpp-punkt
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  // Kontrolli kasutajat (siin võid lisada päris andmebaasi kontrolli)
+  if (email === 'test@example.com' && password === 'password123') {
+    // Genereeri token
+    const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' }); // Token kehtib 1 tund
+    return res.json({ token });
+  } else {
+    return res.status(401).send('Invalid email or password');
+  }
+});
+
+app.post('/add-post', authenticateToken, (req, res) => {
+  console.log('ADD-POST')
+  try {
+    const { title, body, likes } = req.body;
+
+    let newFilePath = path.join(__dirname, '../public/json.json');
+
+  fs.readFile(newFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err)
+      return res.status(500).send('Error reading JSON file');
+    }
+
+    let posts = JSON.parse(data);
+    const newPost = {
+      id: Date.now(),
+      title,
+     // body,
+      date: new Date().toISOString().split('T')[0],
+      likes: likes || 0,
+    };
+
+    console.log(newPost)
+
+    posts.push(newPost);
+
+    fs.writeFile(newFilePath, JSON.stringify(posts, null, 2), (err) => {
+      if (err) {
+        return res.status(500).send('Error writing to JSON file');
+      }
+      res.status(201).json(newPost);
+    });
+  });
+  } catch (error) {
+    console.log(error);
+    return res.status(201).json(newPost);
+  }
+});
+
 // Endpoint to fetch the JSON data
-app.get('/json.json', (req, res) => {
+app.get('/json.json', authenticateToken, (req, res) => {
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading JSON file:', err);
@@ -53,7 +122,7 @@ app.delete('/delete-post/:id', (req, res) => {
 });
 
 // Endpoint to edit a post's title
-app.put('/edit-post/:id', (req, res) => {
+app.put('/edit-post/:id', authenticateToken, (req, res) => {
   const { id } = req.params; // Get the post id from the URL
   const { title } = req.body; // Get the new title from the request body
 
@@ -81,7 +150,7 @@ app.put('/edit-post/:id', (req, res) => {
     });
   });
 });
-app.put('/reset-likes', (req, res) => {
+app.put('/reset-likes', authenticateToken, (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         return res.status(500).send('Error reading JSON file');
@@ -101,15 +170,28 @@ app.put('/reset-likes', (req, res) => {
     });
   });
   
-  // Endpoint to delete all posts
-  app.delete('/delete-all-posts', (req, res) => {
-    fs.writeFile(filePath, JSON.stringify([], null, 2), (err) => {
+  // Endpoint to delete a post (ainult autentitud kasutajatele)
+app.delete('/delete-post/:id', authenticateToken, (req, res) => {
+  const postId = req.params.id;
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Error reading JSON file');
+    }
+
+    let posts = JSON.parse(data);
+
+    // Filter out the post with the given ID
+    posts = posts.filter(post => String(post.id) !== postId);
+
+    fs.writeFile(filePath, JSON.stringify(posts, null, 2), (err) => {
       if (err) {
         return res.status(500).send('Error writing to JSON file');
       }
-      res.send('All posts deleted successfully');
+      res.send('Post deleted successfully');
     });
   });
+});
 
 // Start the server
 app.listen(PORT, () => {
