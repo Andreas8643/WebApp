@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "author": "Andreas L",
+    "title": "Tiananmen 20243",
+    "date": "2024-10-01 14:30:00",
+    "likes": 120
+  },
+  {
+    "id": 2,
+    "author": "Marten M",
+    "title": "A Day at the Beach",
+    "date": "2024-10-05 09:15:00",
+    "likes": 300
+  },
+  {
+    "id": 3,
+    "author": "Lisa Brown",
+    "title": "My Favorite Recipes",
+    "date": "2024-10-10 11:00:00",
+    "likes": 250
+  },
+  {
+    "id": 4,
+    "author": "Alo P",
+    "title": "Tech Trends in 2024 kinda sad",
+    "date": "2024-10-15 16:45:00",
+    "likes": 180
+  },
+  {
+    "id": 5,
+    "author": "Diddy P",
+    "title": "Where my babyoil at",
+    "date": "2024-10-20 08:30:00",
+    "likes": 90
+  },
+  {
+    "id": 6,
+    "author": "Tomi L",
+    "title": "First party at Diddy's",
+    "date": "2024-10-25 10:00:00",
+    "likes": 150
+  },
+  {
+    "id": 7,
+    "author": "Tomi W",
+    "title": "Aint no party like a diddy party",
+    "date": "2024-10-27 14:00:00",
+    "likes": 200
+  },
+  {
+    "id": 8,
+    "author": "Dolaf H",
+    "title": "Home Gardening Tips AAAAAAAAAAAAAAA",
+    "date": "2024-10-30 12:30:00",
+    "likes": 75
+  },
+  {
+    "id": 9,
+    "author": "Mike R",
+    "title": "Google.com how to google google google dot com",
+    "date": "2024-10-28 09:45:00",
+    "likes": 65
+  },
+  {
+    "id": 10,
+    "author": "Help M",
+    "title": "dad",
+    "date": "2024-10-26 15:20:00",
+    "likes": 300
+  }
+]
