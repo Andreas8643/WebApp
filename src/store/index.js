@@ -30,46 +30,90 @@ export default createStore({
     resetLikes(state) {
       state.posts.forEach(post => post.likes = 0);  // Reset all likes
     },
+    addPost(state, post) {
+      state.posts.push(post); // Add the new post to the state
+    },
   },
 
   actions: {
     async resetLikes({ commit }) {
       try {
-        const response = await fetch('http://localhost:3000/reset-likes', {
-          method: 'PUT',
+        const response = await fetch("http://localhost:3000/reset-likes", {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to reset likes");
+        }
+    
+        commit("resetLikes"); // Update Vuex state after successful reset
+      } catch (error) {
+        console.error("Error resetting likes:", error);
+        throw error;
+      }
+    },
+    async addPost({ commit }, post) {
+      try {
+        const response = await fetch('http://localhost:3000/add-post', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+          body: JSON.stringify(post),
         });
         if (!response.ok) {
-          throw new Error(`Failed to reset likes: ${response.statusText}`);
+          throw new Error('Failed to add post');
         }
-        commit('resetLikes'); // Update Vuex state
+        const addedPost = await response.json();
+        commit('addPost', addedPost); // Add the post to Vuex state
+        return addedPost;
       } catch (error) {
-        console.error('Error resetting likes:', error);
+        console.error('Error adding post:', error);
+        throw error;
       }
     },
     async resetPosts({ commit }) {
       try {
         const response = await fetch('http://localhost:3000/delete-all-posts', {
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`, // Include JWT for authentication
+          },
         });
+    
         if (!response.ok) {
-          throw new Error(`Failed to delete all posts: ${response.statusText}`);
+          const error = await response.text();
+          throw new Error(`Failed to delete all posts: ${error}`);
         }
-        commit('setPosts', []); // Clear posts in Vuex state
+    
+        commit('setPosts', []); // Clear posts in Vuex state after successful deletion
+        console.log('All posts deleted successfully');
       } catch (error) {
-        console.error('Error deleting all posts:', error);
+        console.error('Error deleting posts:', error.message);
+        throw error; // Pass the error to the component if needed
       }
     },
     async fetchPosts({ commit }) {
       try {
-          const jsonUrl = 'http://localhost:3000/json.json'; // Fetch posts from the Express server
-          const response = await fetch(jsonUrl);
-          if (!response.ok) {
-              throw new Error(`Network response was not ok: ${response.statusText}`);
-          }
-          const posts = await response.json();
-          commit('setPosts', posts);
+        const response = await fetch("http://localhost:3000/json.json", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch posts: ${response.statusText}`);
+        }
+    
+        const posts = await response.json();
+        commit("setPosts", posts); // Update the Vuex store with fetched posts
       } catch (error) {
-          console.error('Error fetching posts:', error);
+        console.error("Error fetching posts:", error);
+        throw error; // Re-throw the error for further debugging or handling
       }
     },
     deletePost({ commit }, postId) {
@@ -100,6 +144,7 @@ export default createStore({
   },
 
   getters: {
+  
     allPosts(state) {
       return state.posts; // Return all posts from Vuex state
     },
