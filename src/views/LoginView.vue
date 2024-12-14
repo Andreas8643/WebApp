@@ -1,37 +1,68 @@
 <template>
-    <div class="container">
-      <div class="login-box">
-        <h2>Welcome to PostIt</h2>
-        <router-link to="/signup">Create an account</router-link>
-        <p>or</p>
-        <p>Please login</p>
-        <form @submit.prevent="login">
-          <input class="input-field" type="email" placeholder="Email" v-model="email" required />
-          <input class="input-field" type="password" placeholder="Password" v-model="password" required />
-          <button class="login-btn" type="submit">Log in</button>
-        </form>
-        <a href="#">Forget password</a>
-      </div>
+  <div class="container">
+    <div class="login-box">
+      <h2>Welcome to PostIt</h2>
+      <form @submit.prevent="login">
+        <input
+          class="input-field"
+          type="email"
+          placeholder="Email"
+          v-model="email"
+          required
+        />
+        <input
+          class="input-field"
+          type="password"
+          placeholder="Password"
+          v-model="password"
+          required
+        />
+        <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+        <button class="login-btn" type="submit">Log In</button>
+      </form>
+      <p>Don't have an account?</p>
+      <router-link to="/signup">
+        <button class="signup-btn">Sign Up</button>
+      </router-link>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
-  export default {
-    name: "LoginView",
-    data() {
-      return {
-        email: "",
-        password: "",
-      };
+export default {
+  name: "LoginView",
+  data() {
+    return {
+      email: "",
+      password: "",
+      errorMessage: "",
+    };
+  },
+  methods: {
+    async login() {
+      this.errorMessage = "";
+
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: this.email, password: this.password }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Invalid email or password");
+        }
+
+        const { token } = await response.json();
+        localStorage.setItem("userToken", token); // Save JWT for authentication
+        this.$router.push("/"); // Redirect to home after login
+      } catch (error) {
+        this.errorMessage = error.message;
+      }
     },
-    methods: {
-      login() {
-        console.log("Logging in with", this.email, this.password);
-        this.$router.push("/");
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   
   <style>
   @import "@/assets/login.css";
