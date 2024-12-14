@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="logout-container">
+      <button @click="logOut">Log Out</button>
+    </div>
     <div class="posts-container">
       <div v-for="post in posts" :key="post.id" class="post-item">
         <!-- The Post component renders the post -->
@@ -9,7 +12,7 @@
       </div>
     </div>
     <div class="reset-container">
-      <button @click="resetLikes">Reset All Likes</button>
+      <button @click="goToAddPost">Add Post</button>
       <button @click="resetPosts">Delete All</button>
     </div>
   </div>
@@ -17,7 +20,7 @@
 
 <script>
 import Post from "@/components/PostComp.vue"; // Import the Post component
-import { isTokenValid } from "@/utils/auth"; // Check for authentication
+import { isTokenValid, logoutUser } from "@/utils/auth"; // Check for authentication
 
 export default {
   name: "HomeView",
@@ -30,6 +33,14 @@ export default {
     },
   },
   methods: {
+    logOut() {
+      logoutUser(); // Clear token and log out user
+      this.userEmail = null; // Reset email
+      this.$router.push("/login"); // Redirect to login page
+    },
+    goToAddPost() {
+      this.$router.push("/addPost"); // Navigate to the AddPost page
+    },
     goToPost(id) {
       this.$router.push(`/post/${id}`); // Navigate to the aPost page
     },
@@ -76,7 +87,16 @@ export default {
 button:hover {
   background-color: #919191;
 }
-
+.logout-container {
+  position: fixed;
+  top: calc(100px); 
+  left: 50%; /* Horizontal centering */
+  transform: translateX(-50%); /* Adjust for centering */
+  text-align: center;
+  z-index: 10; /* Ensures it appears above other elements */
+  display: flex; /* Ensures the buttons are displayed next to each other */
+  gap: 20px; /* Space between the buttons */
+}
 /* Add hover styling for the clickable title */
 .post-title {
   cursor: pointer;
